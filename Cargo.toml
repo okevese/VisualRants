@@ -1,0 +1,6 @@
+[package]
+name = "visualRants"
+version = "0.1.0"
+authors = ["oke vese <okevese@gmail.com>"]
+
+[dependencies]
