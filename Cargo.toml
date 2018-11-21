@@ -1,6 +1,8 @@
 [package]
-name = "visualRants"
+name = "visual_rants"
 version = "0.1.0"
 authors = ["oke vese <okevese@gmail.com>"]
 
 [dependencies]
+reqwest = "0.9.5"
+select = "0.4.2"
