@@ -1,23 +1,60 @@
 extern crate reqwest;
-extern crate select;
 
-use select::document::Document;
-use select::predicate::Name;
+use std::io::Read;
+
 
 
 fn main() {
-    rant_feed("https://devrant.com/feed");
+	let algo = Sort::Algo;
+
+	let day = Range::Day;
+
+	get_rants(algo, day, 4, 0);
+	
 }
 
+// How rants are sorted
+enum Sort {
+	Algo,
+	Top,
+	Recent,
+}
 
-fn rant_feed(url: &str) {
-	let res = reqwest::get(url).unwrap();
-	assert!(res.status().is_success());
+// Time spectrum of rants
+enum Range {
+	Day,
+	Week,
+	Month,
+	All,
+}
 
-	Document::from_read(res)
-		.unwrap()
-		.find(Name("a"))
-		.filter_map(|n| n.attr("href"))
-		.for_each(|x| println!("{:?}", x)); // TODO: filter for rant tags here <==
+// Ensures only correct string values for `get_rants` parameters
+impl Sort {
+	fn as_str(&self) -> &str {
+		match self {
+			&Sort::Algo => "algo",
+			&Sort::Top => "top",
+			&Sort::Recent => "recent"
+		}
+	}
+}
 
+impl Range {
+	fn as_str(&self) -> &str {
+		match self {
+			&Range::Day => "day",
+			&Range::Week => "week",
+			&Range::Month => "month",
+			&Range::All => "all",
+		}
+	}
+}
+
+// limit: i32, skip: i32
+fn get_rants(sort_type: Sort, range_type: Range, _limit: i32, _skip: i32) {
+	let sort_type = sort_type.as_str();
+	let range_type = range_type.as_str();
+
+	// TODO: pass params to this URL
+	let url: &str = "https://devrant.com/api/devrant/rants?app=3&sort=top&range=day&limit=6&skip=0";
 }
