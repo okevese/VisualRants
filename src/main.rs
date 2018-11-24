@@ -1,7 +1,11 @@
+
 extern crate reqwest;
+extern crate serde;
+extern crate serde_json;
 
 use std::io::Read;
-
+use reqwest::Client;
+use reqwest::Response;
 
 
 fn main() {
@@ -9,7 +13,10 @@ fn main() {
 
 	let day = Range::Day;
 
-	get_rants(algo, day, 4, 0);
+	let limit: &str = "4";
+	let skip: &str = "0";
+
+	get_rants(algo, day, limit, skip);
 	
 }
 
@@ -50,11 +57,21 @@ impl Range {
 	}
 }
 
+
+struct Rant {
+	origin: String,
+}
+
 // limit: i32, skip: i32
-fn get_rants(sort_type: Sort, range_type: Range, _limit: i32, _skip: i32) {
+fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) {
 	let sort_type = sort_type.as_str();
 	let range_type = range_type.as_str();
 
-	// TODO: pass params to this URL
-	let url: &str = "https://devrant.com/api/devrant/rants?app=3&sort=top&range=day&limit=6&skip=0";
+	let client = reqwest::Client::new();
+	let res = client.get("https://devrant.com/api/devrant/rants?app=3")
+		.query(&[("sort", sort_type), ("range", range_type), ("limit", _limit), ("skip", _skip)])
+		.send()
+		.unwrap();
+
+	println!("{:?}", res);
 }
