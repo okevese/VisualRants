@@ -2,6 +2,7 @@
 extern crate reqwest;
 extern crate serde;
 extern crate serde_json;
+extern crate plotlib;
 
 #[macro_use]
 extern crate serde_derive;
@@ -21,7 +22,11 @@ fn main() {
 	let limit: &str = "1"; 		// Number of rants to return
 	let skip: &str = "1";		// Number of rants to skip
 
-	get_rants(recent, day, limit, skip);
+	match get_rants(recent, day, limit, skip) {
+		Ok(rants) => graph_data(rants),
+		Err(err) => println!(" Error: {:?}", err),
+	}
+
 	
 }
 
@@ -64,18 +69,11 @@ impl Range {
 
 
 #[derive(Serialize, Deserialize, Debug)]
-struct RantImage {
-	url: String,
-}
-
-
-#[derive(Serialize, Deserialize, Debug)]
 struct RantData {
 	id: i32,
 	text: String,
 	score: i32,
 	created_time: i32,
-	attached_image: RantImage,
 	num_comments: i32,
 	tags: Vec<String>,
 	vote_state: i32,
@@ -93,7 +91,7 @@ struct Rant {
 
 
 // Get rants from API
-fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) -> Result<(), Error> {
+fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) -> Result<Rant, Error> {
 	let sort_type = sort_type.as_str();
 	let range_type = range_type.as_str();
 
@@ -109,7 +107,10 @@ fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) -> R
 	// Deserializes JSON. Parses string of data into `Rant` object
 	let rant_data: Rant = serde_json::from_str(&body)?;
 
-	println!("Body:\n{:?}", rant_data);
 
-	Ok(())
+	Ok(rant_data)
+}
+
+fn graph_data(rant: Rant) {
+	println!("Body:\n{:?}", rant);
 }
