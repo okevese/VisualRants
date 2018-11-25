@@ -3,17 +3,21 @@ extern crate reqwest;
 extern crate serde;
 extern crate serde_json;
 
+#[macro_use]
+extern crate serde_derive;
+
 use std::io::Read;
 use reqwest::Client;
 use reqwest::Response;
 
 
 fn main() {
+	// TODO: Pass these variables as command line arguments when running visual_rants
 	let algo = Sort::Algo;
 
 	let day = Range::Day;
 
-	let limit: &str = "4";
+	let limit: &str = "1";
 	let skip: &str = "0";
 
 	get_rants(algo, day, limit, skip);
@@ -58,20 +62,45 @@ impl Range {
 }
 
 
-struct Rant {
-	origin: String,
+
+
+#[derive(Serialize, Deserialize, Debug)]
+struct RantData {
+	id: i32,
+	text: String,
+	score: i32,
+	created_time: i32,
+	num_comments: i32,
+	tags: Vec<String>,
+	vote_state: i32,
+	edited: bool,
+	user_username: String,
+	user_score: i32,
 }
 
-// limit: i32, skip: i32
+
+#[derive(Serialize, Deserialize, Debug)]
+struct Rant {
+	success: bool,
+	rants: Vec<RantData>,
+}
+
+
+// Get rants from API
 fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) {
 	let sort_type = sort_type.as_str();
 	let range_type = range_type.as_str();
 
-	let client = reqwest::Client::new();
-	let res = client.get("https://devrant.com/api/devrant/rants?app=3")
+	let client = Client::new();
+	let mut body = String::new();
+	let mut res = client.get("https://devrant.com/api/devrant/rants?app=3")
 		.query(&[("sort", sort_type), ("range", range_type), ("limit", _limit), ("skip", _skip)])
 		.send()
 		.unwrap();
+	res.read_to_string(&mut body).unwrap();
 
-	println!("{:?}", res);
+	// Deserializes JSON. Parses string of data into `Rant` object
+	let data: Rant = serde_json::from_str(&body).unwrap();
+
+	println!("Body:\n{:?}", data);
 }
