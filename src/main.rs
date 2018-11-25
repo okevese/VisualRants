@@ -6,6 +6,7 @@ extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
 
+use std::io::Error;
 use std::io::Read;
 use reqwest::Client;
 use reqwest::Response;
@@ -14,13 +15,13 @@ use reqwest::Response;
 fn main() {
 	// TODO: Pass these variables as command line arguments when running visual_rants
 	let algo = Sort::Algo;
-
+	let recent = Sort::Recent;
 	let day = Range::Day;
 
-	let limit: &str = "1";
-	let skip: &str = "0";
+	let limit: &str = "1"; 		// Number of rants to return
+	let skip: &str = "1";		// Number of rants to skip
 
-	get_rants(algo, day, limit, skip);
+	get_rants(recent, day, limit, skip);
 	
 }
 
@@ -62,6 +63,10 @@ impl Range {
 }
 
 
+#[derive(Serialize, Deserialize, Debug)]
+struct RantImage {
+	url: String,
+}
 
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -70,6 +75,7 @@ struct RantData {
 	text: String,
 	score: i32,
 	created_time: i32,
+	attached_image: RantImage,
 	num_comments: i32,
 	tags: Vec<String>,
 	vote_state: i32,
@@ -87,7 +93,7 @@ struct Rant {
 
 
 // Get rants from API
-fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) {
+fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) -> Result<(), Error> {
 	let sort_type = sort_type.as_str();
 	let range_type = range_type.as_str();
 
@@ -97,10 +103,13 @@ fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) {
 		.query(&[("sort", sort_type), ("range", range_type), ("limit", _limit), ("skip", _skip)])
 		.send()
 		.unwrap();
-	res.read_to_string(&mut body).unwrap();
+	assert!(res.status().is_success());
+	res.read_to_string(&mut body)?;
 
 	// Deserializes JSON. Parses string of data into `Rant` object
-	let data: Rant = serde_json::from_str(&body).unwrap();
+	let rant_data: Rant = serde_json::from_str(&body)?;
 
-	println!("Body:\n{:?}", data);
+	println!("Body:\n{:?}", rant_data);
+
+	Ok(())
 }
