@@ -6,3 +6,6 @@ authors = ["oke vese <okevese@gmail.com>"]
 [dependencies]
 reqwest = "0.9.5"
 select = "0.4.2"
+serde = "1.0.80"
+serde_json = "1.0.33"
+serde_derive = "1.0.80"
