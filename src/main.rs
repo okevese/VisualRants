@@ -11,6 +11,11 @@ use std::io::Error;
 use std::io::Read;
 use reqwest::Client;
 use reqwest::Response;
+use plotlib::scatter::Scatter;
+use plotlib::scatter;
+use plotlib::style::{Marker, Point};
+use plotlib::view::View;
+use plotlib::page::Page;
 
 
 fn main() {
@@ -19,14 +24,13 @@ fn main() {
 	let recent = Sort::Recent;
 	let day = Range::Day;
 
-	let limit: &str = "1"; 		// Number of rants to return
+	let limit: &str = "2"; 		// Number of rants to return
 	let skip: &str = "1";		// Number of rants to skip
 
 	match get_rants(recent, day, limit, skip) {
 		Ok(rants) => graph_data(rants),
 		Err(err) => println!(" Error: {:?}", err),
 	}
-
 	
 }
 
@@ -111,6 +115,14 @@ fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) -> R
 	Ok(rant_data)
 }
 
+
 fn graph_data(rant: Rant) {
-	println!("Body:\n{:?}", rant);
+	let mut points: Vec<(i32, i32)> = Vec::new();
+
+	// Adds the user upvote count and rant upvotes to an array of tuples for plotting
+	for i in rant.rants {
+		let user_rant: (i32, i32) = (i.user_score, i.score);
+		points.push(user_rant);
+	}
+	println!("{:?}", points);
 }
