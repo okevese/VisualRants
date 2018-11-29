@@ -1,0 +1,85 @@
+<svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(50, 360)">
+<g>
+<rect fill="#DD3355" height="10" width="10" x="40.45454545454545" y="-99.22342234223423"/>
+<rect fill="#DD3355" height="10" width="10" x="49.54545454545455" y="-6.904190419041904"/>
+<rect fill="#DD3355" height="10" width="10" x="63.18181818181819" y="-5.204020402040204"/>
+<rect fill="#DD3355" height="10" width="10" x="67.72727272727273" y="-33.97089708970897"/>
+<rect fill="#DD3355" height="10" width="10" x="67.72727272727273" y="-56.37913791379138"/>
+<rect fill="#DD3355" height="10" width="10" x="49.54545454545455" y="-160.5995599559956"/>
+<rect fill="#DD3355" height="10" width="10" x="99.54545454545455" y="-44.34193419341934"/>
+<rect fill="#DD3355" height="10" width="10" x="63.18181818181819" y="-449.56045604560455"/>
+<rect fill="#DD3355" height="10" width="10" x="81.36363636363636" y="-52.91079107910791"/>
+<rect fill="#DD3355" height="10" width="10" x="49.54545454545455" y="-8.74037403740374"/>
+<rect fill="#DD3355" height="10" width="10" x="72.27272727272727" y="-16.11911191119112"/>
+<rect fill="#DD3355" height="10" width="10" x="99.54545454545455" y="-20.947594759475948"/>
+<rect fill="#DD3355" height="10" width="10" x="45" y="-12.310731073107311"/>
+<rect fill="#DD3355" height="10" width="10" x="90.45454545454545" y="-80.72557255725573"/>
+<rect fill="#DD3355" height="10" width="10" x="54.09090909090909" y="-17.615261526152615"/>
+</g>
+<g>
+<g>
+<line stroke="black" stroke-width="1" x1="45.45454545454545" x2="45.45454545454545" y1="0" y2="10"/>
+<line stroke="black" stroke-width="1" x1="136.36363636363637" x2="136.36363636363637" y1="0" y2="10"/>
+<line stroke="black" stroke-width="1" x1="227.27272727272728" x2="227.27272727272728" y1="0" y2="10"/>
+<line stroke="black" stroke-width="1" x1="318.1818181818182" x2="318.1818181818182" y1="0" y2="10"/>
+<line stroke="black" stroke-width="1" x1="409.09090909090907" x2="409.09090909090907" y1="0" y2="10"/>
+<line stroke="black" stroke-width="1" x1="500" x2="500" y1="0" y2="10"/>
+</g>
+<line stroke="black" stroke-width="1" x1="0" x2="500" y1="0" y2="0"/>
+<g>
+<text font-size="12" text-anchor="middle" x="45.45454545454545" y="20">
+0
+</text>
+<text font-size="12" text-anchor="middle" x="136.36363636363637" y="20">
+20
+</text>
+<text font-size="12" text-anchor="middle" x="227.27272727272728" y="20">
+40
+</text>
+<text font-size="12" text-anchor="middle" x="318.1818181818182" y="20">
+60
+</text>
+<text font-size="12" text-anchor="middle" x="409.09090909090907" y="20">
+80
+</text>
+<text font-size="12" text-anchor="middle" x="500" y="20">
+100
+</text>
+</g>
+<text font-size="12" text-anchor="middle" x="250" y="30">
+rant upvotes
+</text>
+</g>
+<g>
+<g>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-67.97279727972797" y2="-67.97279727972797"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-135.97959795979597" y2="-135.97959795979597"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-203.98639863986398" y2="-203.98639863986398"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-271.993199319932" y2="-271.993199319932"/>
+<line stroke="black" stroke-width="1" x1="0" x2="-10" y1="-340" y2="-340"/>
+</g>
+<line stroke="black" stroke-0="1" x1="0" x2="0" y1="0" y2="-340"/>
+<g>
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-67.97279727972797">
+2000
+</text>
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-135.97959795979597">
+4000
+</text>
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-203.98639863986398">
+6000
+</text>
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-271.993199319932">
+8000
+</text>
+<text dominant-baseline="middle" font-size="12" text-anchor="end" x="-15" y="-340">
+10000
+</text>
+</g>
+<text font-size="12" text-anchor="middle" transform="rotate(-90 -30 -170)" x="-30" y="-170">
+User upvote count
+</text>
+</g>
+</g>
+</svg>

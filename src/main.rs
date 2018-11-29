@@ -10,7 +10,7 @@ extern crate serde_derive;
 use std::io::Error;
 use std::io::Read;
 use reqwest::Client;
-use reqwest::Response;
+
 use plotlib::scatter::Scatter;
 use plotlib::scatter;
 use plotlib::style::{Marker, Point};
@@ -24,7 +24,7 @@ fn main() {
 	let recent = Sort::Recent;
 	let day = Range::Day;
 
-	let limit: &str = "2"; 		// Number of rants to return
+	let limit: &str = "15"; 		// Number of rants to return
 	let skip: &str = "1";		// Number of rants to skip
 
 	match get_rants(recent, day, limit, skip) {
@@ -144,11 +144,11 @@ fn plot(points: Vec<(f64, f64)>) {
 	// The view describes the set of data drawn
 	let v = View::new()
 		.add(&s1)
-		.x_range(1., 100.)
-		.y_range(100., 2000.)
+		.x_range(-10., 100.)			// rant upvote count
+		.y_range(1., 10000.)		// user upvote count
 		.x_label("rant upvotes")
 		.y_label("User upvote count");
 
-	// Page with a single view saved to an SVG file
+	// Page with a single view saved to an SVG file in the root folder
 	Page::single(&v).save("rant_stat.svg");
 }
