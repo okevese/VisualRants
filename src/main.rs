@@ -117,12 +117,38 @@ fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) -> R
 
 
 fn graph_data(rant: Rant) {
-	let mut points: Vec<(i32, i32)> = Vec::new();
+	let mut points: Vec<(f64, f64)> = Vec::new();
 
 	// Adds the user upvote count and rant upvotes to an array of tuples for plotting
 	for i in rant.rants {
-		let user_rant: (i32, i32) = (i.user_score, i.score);
+
+		// Creates tuple and casts `i32` of user and rant counts into `f64`
+		let user_rant: (f64, f64) = (i.score.into(), i.user_score.into()); 
 		points.push(user_rant);
 	}
 	println!("{:?}", points);
+	plot(points)
+}
+
+
+
+fn plot(points: Vec<(f64, f64)>) {
+
+	// Create the scatter plot from the data
+	let s1 = Scatter::from_vec(&points)
+		.style(scatter::Style::new()
+			.marker(Marker::Square)
+			.colour("#DD3355"));
+
+
+	// The view describes the set of data drawn
+	let v = View::new()
+		.add(&s1)
+		.x_range(1., 100.)
+		.y_range(100., 2000.)
+		.x_label("rant upvotes")
+		.y_label("User upvote count");
+
+	// Page with a single view saved to an SVG file
+	Page::single(&v).save("rant_stat.svg");
 }
