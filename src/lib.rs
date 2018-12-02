@@ -108,6 +108,7 @@ pub struct Points {
 }
 
 
+// Extracts data from each rant of `Rant` and adds to `Point`, a struct containing a list of tuples for each data set
 pub fn prepare_data(rant: Rant) {
 
 	let mut all_points = Points {
