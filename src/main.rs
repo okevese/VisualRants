@@ -2,7 +2,7 @@ extern crate visual_rants;
 
 use visual_rants::*;
 use std::io::Error;
-use std::io::Read;
+
 
 
 fn main() {
@@ -21,7 +21,7 @@ fn main() {
 
 
 	match get_rants(recent, day, limit, skip) {
-		Ok(rants) => graph_data(rants),
+		Ok(rants) => prepare_data(rants),
 		Err(err) => println!(" Error: {:?}", err),
 	}
 	

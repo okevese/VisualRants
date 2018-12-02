@@ -7,7 +7,6 @@ extern crate plotlib;
 #[macro_use]
 extern crate serde_derive;
 
-use std::env;
 use std::io::Error;
 use std::io::Read;
 use reqwest::Client;
@@ -102,28 +101,38 @@ pub fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) 
 	Ok(rant_data)
 }
 
+// Holds lists of tuples for each data set
+#[derive(Debug)]
+pub struct Points {
+	user_rants: Vec<(f64, f64)>
+}
 
 
-pub fn graph_data(rant: Rant) {
-	let mut points: Vec<(f64, f64)> = Vec::new();
+// Extracts data from each rant of `Rant` and adds to `Point`, a struct containing a list of tuples for each data set
+pub fn prepare_data(rant: Rant) {
+
+	let mut all_points = Points {
+		user_rants: Vec::new(),
+	};
+	
 
 	// Adds the user upvote count and rant upvotes to an array of tuples for plotting
 	for i in rant.rants {
 
 		// Creates tuple and casts `i32` of user and rant counts into `f64`
 		let user_rant: (f64, f64) = (i.score.into(), i.user_score.into()); 
-		points.push(user_rant);
+		all_points.user_rants.push(user_rant);
 	}
-	println!("{:?}", points);
-	plot(points)
+	println!("{:?}", &all_points);
+	plot(&all_points)
 }
 
 
 
-fn plot(points: Vec<(f64, f64)>) {
+fn plot(points: &Points) {
 
 	// Create the scatter plot from the data
-	let s1 = Scatter::from_vec(&points)
+	let s1 = Scatter::from_vec(&points.user_rants)
 		.style(scatter::Style::new()
 			.marker(Marker::Square)
 			.colour("#DD3355"));
