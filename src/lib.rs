@@ -108,7 +108,7 @@ pub struct Points {
 }
 
 
-pub fn graph_data(rant: Rant) {
+pub fn prepare_data(rant: Rant) {
 
 	let mut all_points = Points {
 		user_rants: Vec::new(),
@@ -122,7 +122,7 @@ pub fn graph_data(rant: Rant) {
 		let user_rant: (f64, f64) = (i.score.into(), i.user_score.into()); 
 		all_points.user_rants.push(user_rant);
 	}
-	println!("{:?}", all_points);
+	println!("{:?}", &all_points);
 	plot(&all_points)
 }
 
