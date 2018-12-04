@@ -97,14 +97,15 @@ pub fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) 
 	// Deserializes JSON. Parses string of data into `Rant` object
 	let rant_data: Rant = serde_json::from_str(&body)?;
 
-
 	Ok(rant_data)
 }
+
 
 // Holds lists of tuples for each data set
 #[derive(Debug)]
 pub struct Points {
-	user_rants: Vec<(f64, f64)>
+	user_rants: Vec<(f64, f64)>,
+	user_comments: Vec<(f64, f64)>,
 }
 
 
@@ -113,15 +114,19 @@ pub fn prepare_data(rant: Rant) {
 
 	let mut all_points = Points {
 		user_rants: Vec::new(),
+		user_comments: Vec::new(),
 	};
 	
 
-	// Adds the user upvote count and rant upvotes to an array of tuples for plotting
 	for i in rant.rants {
 
-		// Creates tuple and casts `i32` of user and rant counts into `f64`
+		// Add tuple of number of rant upvotes and user upvote count to vector
 		let user_rant: (f64, f64) = (i.score.into(), i.user_score.into()); 
 		all_points.user_rants.push(user_rant);
+
+		// Add tuple of number of comments and user upvote count to vector
+		let user_comment: (f64, f64) = (i.num_comments.into(), i.user_score.into());
+		all_points.user_comments.push(user_comment);
 	}
 	println!("{:?}", &all_points);
 	plot(&all_points)
@@ -131,21 +136,35 @@ pub fn prepare_data(rant: Rant) {
 
 fn plot(points: &Points) {
 
-	// Create the scatter plot from the data
+	// Create the scatter plot for user - rant upvotes 
 	let s1 = Scatter::from_vec(&points.user_rants)
 		.style(scatter::Style::new()
-			.marker(Marker::Square)
+			.marker(Marker::Cross)
 			.colour("#DD3355"));
 
+	// Create the scatter plot for user - number of comments
+	let s2 = Scatter::from_vec(&points.user_comments)
+		.style(scatter::Style::new()
+			.colour("#35C788"));
 
-	// The view describes the set of data drawn
-	let v = View::new()
+
+	// The views describe the set of data drawn
+	let v1 = View::new()
 		.add(&s1)
-		.x_range(-10., 100.)			// rant upvote count
-		.y_range(1., 10000.)		// user upvote count
-		.x_label("rant upvotes")
+		.x_range(-10., 100.)			
+		.y_range(1., 10000.)			
+		.x_label("Rant upvotes")
 		.y_label("User upvote count");
 
-	// Page with a single view saved to an SVG file in the root folder
-	Page::single(&v).save("rant_stat.svg");
+	let v2 = View::new()
+		.add(&s2)
+		.x_range(-10., 50.)				
+		.y_range(1., 10000.)
+		.x_label("Number of comments")	
+		.y_label("User upvote count");	
+
+	// Pages with a single view saved to an SVG file in the root folder
+	Page::single(&v1).save("user_rant.svg");
+
+	Page::single(&v2).save("user_comments.svg");
 }
