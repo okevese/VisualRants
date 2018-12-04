@@ -108,15 +108,20 @@ pub struct Points {
 	user_comments: Vec<(f64, f64)>,
 }
 
+impl Points {
+	fn new() -> Points {
+		Points {
+			user_rants: Vec::with_capacity(50),
+			user_comments: Vec::with_capacity(50),
+		}
+	}
+}
+
 
 // Extracts data from each rant of `Rant` and adds to `Point`, a struct containing a list of tuples for each data set
 pub fn prepare_data(rant: Rant) {
 
-	let mut all_points = Points {
-		user_rants: Vec::new(),
-		user_comments: Vec::new(),
-	};
-	
+	let mut all_points = Points::new();
 
 	for i in rant.rants {
 
