@@ -16,11 +16,11 @@ fn main() {
 	let all = Range::All;
 
 
-	let limit: &str = "15"; 		// Number of rants to return
+	let limit: &str = "35"; 		// Number of rants to return
 	let skip: &str = "1";		// Number of rants to skip
 
 
-	match get_rants(recent, day, limit, skip) {
+	match get_rants(algo, week, limit, skip) {
 		Ok(rants) => prepare_data(rants),
 		Err(err) => println!(" Error: {:?}", err),
 	}
