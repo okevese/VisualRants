@@ -90,7 +90,7 @@ pub fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) 
 	let mut res = client.get("https://devrant.com/api/devrant/rants?app=3")
 		.query(&[("sort", sort_type), ("range", range_type), ("limit", _limit), ("skip", _skip)])
 		.send()
-		.unwrap();
+		.expect("Failed to get rants");
 	assert!(res.status().is_success());
 	res.read_to_string(&mut body)?;
 
@@ -172,4 +172,30 @@ fn plot(points: &Points) {
 	Page::single(&v1).save("user_rant.svg");
 
 	Page::single(&v2).save("user_comments.svg");
+}
+
+
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[test]
+	fn should_get_rants() {
+		let recent = Sort::Recent;
+		let day = Range::Day;
+		let limit = "2";
+		let skip = "0";
+
+		match get_rants(recent, day, limit, skip) {
+			Ok(rants) => {
+				assert_eq!(true, rants.success);
+				assert!(!rants.rants.is_empty());
+			},
+
+			Err(error) => {
+				panic!("Error getting rants: {:?}", error);
+			}
+		}
+	}
 }
