@@ -187,9 +187,15 @@ mod tests {
 		let limit = "2";
 		let skip = "0";
 
+		match get_rants(recent, day, limit, skip) {
+			Ok(rants) => {
+				assert_eq!(true, rants.success);
+				assert!(!rants.rants.is_empty());
+			},
 
-		get_rants(recent, day, limit, skip).unwrap_or_else(|error| {
-			panic!("Problem getting rants: {:?}", error);
-		});
+			Err(error) => {
+				panic!("Error getting rants: {:?}", error);
+			}
+		}
 	}
 }
