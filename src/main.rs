@@ -1,7 +1,6 @@
 extern crate visual_rants;
 
 use visual_rants::*;
-use std::io::Error;
 
 
 
@@ -16,11 +15,11 @@ fn main() {
 	let all = Range::All;
 
 
-	let limit: &str = "35"; 		// Number of rants to return
-	let skip: &str = "1";		// Number of rants to skip
+	let limit: &str = "5"; 		// Number of rants to return
+	let skip: &str = "0";		// Number of rants to skip
 
 
-	match get_rants(algo, week, limit, skip) {
+	match get_rants(algo, day, limit, skip) {
 		Ok(rants) => prepare_data(rants),
 		Err(err) => println!(" Error: {:?}", err),
 	}
