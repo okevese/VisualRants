@@ -119,7 +119,7 @@ impl Points {
 
 
 // Extracts data from each rant of `Rant` and adds to `Point`, a struct containing a list of tuples for each data set
-pub fn prepare_data(rant: Rant) {
+pub fn prepare_data(rant: Rant) -> Points {
 
 	let mut all_points = Points::new();
 
@@ -134,12 +134,12 @@ pub fn prepare_data(rant: Rant) {
 		all_points.user_comments.push(user_comment);
 	}
 	println!("{:?}", &all_points);
-	plot(&all_points)
+	all_points
 }
 
 
 
-fn plot(points: &Points) {
+pub fn plot(points: Points) {
 
 	// Create the scatter plot for user - rant upvotes 
 	let s1 = Scatter::from_vec(&points.user_rants)
@@ -192,10 +192,26 @@ mod tests {
 				assert_eq!(true, rants.success);
 				assert!(!rants.rants.is_empty());
 			},
-
-			Err(error) => {
-				panic!("Error getting rants: {:?}", error);
-			}
+			
+			Err(error) => panic!("Error getting rants: {:?}", error),
 		}
 	}
+
+
+	#[test]
+	fn should_prepare_data() {
+		let recent = Sort::Recent;
+		let day = Range::Day;
+		let limit = "2";
+		let skip = "0";
+
+		let data = get_rants(recent, day, limit, skip);
+		match data {
+			Ok(data) => {
+				let points = prepare_data(data);
+				assert!(!points.user_rants.is_empty());
+			},
+			Err(error) => panic!("Error: {:?}", error),
+		}
+	} 
 }
