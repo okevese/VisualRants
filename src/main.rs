@@ -20,7 +20,11 @@ fn main() {
 
 
 	match get_rants(algo, day, limit, skip) {
-		Ok(rants) => prepare_data(rants),
+		Ok(rants) => {
+			let points = prepare_data(rants);
+			plot(points);
+		},
+
 		Err(err) => println!(" Error: {:?}", err),
 	}
 	
