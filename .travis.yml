@@ -1,0 +1,15 @@
+language: rust
+cache: cargo
+
+rust:
+  - nightly
+
+branches:
+  only:
+  - master
+  - develop
+
+script:
+  cargo build --verbose --all
+  cargo test --verbose --all
+
