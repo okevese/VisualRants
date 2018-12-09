@@ -7,7 +7,6 @@ rust:
 branches:
   only:
   - master
-  - develop
 
 script:
   cargo test --verbose --all
