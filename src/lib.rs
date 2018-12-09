@@ -192,10 +192,8 @@ mod tests {
 				assert_eq!(true, rants.success);
 				assert!(!rants.rants.is_empty());
 			},
-
-			Err(error) => {
-				panic!("Error getting rants: {:?}", error);
-			}
+			
+			Err(error) => panic!("Error getting rants: {:?}", error),
 		}
 	}
 
