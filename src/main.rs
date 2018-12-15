@@ -13,6 +13,7 @@ fn main() {
 	let week = Range::Week;
 	let month = Range::Month;
 	let all = Range::All;
+	
 
 
 	let limit: &str = "5"; 		// Number of rants to return
