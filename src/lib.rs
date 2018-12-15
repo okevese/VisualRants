@@ -180,7 +180,7 @@ mod tests {
 	use super::*;
 
 	#[test]
-	fn should_get_rants() {
+	fn should_get_and_prepare_data() {
 		let recent = Sort::Recent;
 		let day = Range::Day;
 		let limit = "2";
@@ -190,27 +190,12 @@ mod tests {
 			Ok(rants) => {
 				assert_eq!(true, rants.success);
 				assert!(!rants.rants.is_empty());
-			},
-			
-			Err(error) => panic!("Error getting rants: {:?}", error),
-		}
-	}
 
-
-	#[test]
-	fn should_prepare_data() {
-		let recent = Sort::Recent;
-		let day = Range::Day;
-		let limit = "2";
-		let skip = "0";
-
-		let data = get_rants(recent, day, limit, skip);
-		match data {
-			Ok(data) => {
-				let points = prepare_data(data);
+				let points = prepare_data(rants);
 				assert!(!points.user_rants.is_empty());
 			},
-			Err(error) => panic!("Error: {:?}", error),
+			
+			Err(error) => panic!("Failed to prepare data: {:?}", error),
 		}
-	} 
+	}
 }
