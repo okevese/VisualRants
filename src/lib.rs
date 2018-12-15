@@ -9,6 +9,8 @@ extern crate serde_derive;
 use std::io::Error;
 use std::io::Read;
 use reqwest::Client;
+use reqwest::Error as ReqwestError;
+use serde_json::Error as SerdeError;
 
 use plotlib::scatter::Scatter;
 use plotlib::scatter;
@@ -79,8 +81,35 @@ pub struct Rant {
 }
 
 
+// Custom error handling wrapper
+#[derive(Debug)]
+pub enum WrapError {
+	Error,
+	ReqwestError,
+	SerdeError,
+}
+
+impl From<Error> for WrapError {
+	fn from(error: Error) -> Self {
+		WrapError::Error
+	}
+}
+
+impl From<ReqwestError> for WrapError {
+	fn from(error: ReqwestError) -> Self {
+		WrapError::ReqwestError
+	}
+}
+
+impl From<SerdeError> for WrapError {
+	fn from(error: SerdeError) -> Self {
+		WrapError::SerdeError
+	}
+}
+
+
 // Get rants from API
-pub fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) -> Result<Rant, Error> {
+pub fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) -> Result<Rant, WrapError> {
 	let sort_type = sort_type.as_str();
 	let range_type = range_type.as_str();
 
@@ -88,9 +117,7 @@ pub fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) 
 	let mut body = String::new();
 	let mut res = client.get("https://devrant.com/api/devrant/rants?app=3")
 		.query(&[("sort", sort_type), ("range", range_type), ("limit", _limit), ("skip", _skip)])
-		.send()
-		.expect("Failed to get rants");
-	assert!(res.status().is_success());
+		.send()?;
 	res.read_to_string(&mut body)?;
 
 	// Deserializes JSON. Parses string of data into `Rant` object
