@@ -9,7 +9,7 @@ extern crate serde_derive;
 use std::io::Error;
 use std::io::Read;
 use reqwest::Client;
-use reqwest::Error as ReqwestError;
+//use reqwest::Error as ReqwestError;
 use serde_json::Error as SerdeError;
 
 use plotlib::scatter::Scatter;
@@ -85,7 +85,7 @@ pub struct Rant {
 #[derive(Debug)]
 pub enum WrapError {
 	Error,
-	ReqwestError,
+	ReqwestError(reqwest::Error),
 	SerdeError,
 }
 
@@ -95,9 +95,9 @@ impl From<Error> for WrapError {
 	}
 }
 
-impl From<ReqwestError> for WrapError {
-	fn from(error: ReqwestError) -> Self {
-		WrapError::ReqwestError
+impl From<reqwest::Error> for WrapError {
+	fn from(error: reqwest::Error) -> Self {
+		WrapError::ReqwestError(error)
 	}
 }
 
@@ -117,7 +117,7 @@ pub fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) 
 	let mut body = String::new();
 	let mut res = client.get("https://devrant.com/api/devrant/rants?app=3")
 		.query(&[("sort", sort_type), ("range", range_type), ("limit", _limit), ("skip", _skip)])
-		.send()?;
+		.send().map_err(WrapError::ReqwestError)?;
 	res.read_to_string(&mut body)?;
 
 	// Deserializes JSON. Parses string of data into `Rant` object
