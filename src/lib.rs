@@ -6,11 +6,11 @@ extern crate plotlib;
 #[macro_use]
 extern crate serde_derive;
 
-use std::io::Error;
 use std::io::Read;
 use reqwest::Client;
-//use reqwest::Error as ReqwestError;
-use serde_json::Error as SerdeError;
+use std::io::Error;
+use reqwest::Error as ReqwError;
+use serde_json::Error as SerdError;
 
 use plotlib::scatter::Scatter;
 use plotlib::scatter;
@@ -84,26 +84,26 @@ pub struct Rant {
 // Custom error handling wrapper
 #[derive(Debug)]
 pub enum WrapError {
-	Error,
-	ReqwestError(reqwest::Error),
-	SerdeError,
+	Error(Error),
+	ReqwestError(ReqwError),
+	SerdeError(SerdError),
 }
 
 impl From<Error> for WrapError {
 	fn from(error: Error) -> Self {
-		WrapError::Error
+		WrapError::Error(error)
 	}
 }
 
-impl From<reqwest::Error> for WrapError {
-	fn from(error: reqwest::Error) -> Self {
+impl From<ReqwError> for WrapError {
+	fn from(error: ReqwError) -> Self {
 		WrapError::ReqwestError(error)
 	}
 }
 
-impl From<SerdeError> for WrapError {
-	fn from(error: SerdeError) -> Self {
-		WrapError::SerdeError
+impl From<SerdError> for WrapError {
+	fn from(error: SerdError) -> Self {
+		WrapError::SerdeError(error)
 	}
 }
 
@@ -118,10 +118,10 @@ pub fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) 
 	let mut res = client.get("https://devrant.com/api/devrant/rants?app=3")
 		.query(&[("sort", sort_type), ("range", range_type), ("limit", _limit), ("skip", _skip)])
 		.send().map_err(WrapError::ReqwestError)?;
-	res.read_to_string(&mut body)?;
+	res.read_to_string(&mut body).map_err(WrapError::Error)?;
 
 	// Deserializes JSON. Parses string of data into `Rant` object
-	let rant_data: Rant = serde_json::from_str(&body)?;
+	let rant_data: Rant = serde_json::from_str(&body).map_err(WrapError::SerdeError)?;
 
 	Ok(rant_data)
 }
