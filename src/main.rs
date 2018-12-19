@@ -22,7 +22,7 @@ fn main() {
 
 	match get_rants(algo, day, limit, skip) {
 		Ok(rants) => plot(prepare_data(rants)),
-
+		
 		Err(err) => println!(" Error: {:?}", err),
 	}
 	

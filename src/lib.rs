@@ -108,6 +108,7 @@ impl From<SerdError> for WrapError {
 }
 
 
+
 // Get rants from API
 pub fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) -> Result<Rant, WrapError> {
 	let sort_type = sort_type.as_str();
