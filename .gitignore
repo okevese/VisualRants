@@ -2,4 +2,5 @@
 /target
 **/*.rs.bk
 .~lock.rant_stat.svg#
-rant_stat.svg
+/user_rant.svg
+/user_comments.svg
