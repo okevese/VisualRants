@@ -1,8 +1,8 @@
 extern crate visual_rants;
 
 use visual_rants::*;
+use visual_rants::params::*;
 
-pub mod params;
 
 
 fn main() {

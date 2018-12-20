@@ -18,7 +18,7 @@ use plotlib::style::{Marker, Point};
 use plotlib::view::View;
 use plotlib::page::Page;
 
-mod params;
+pub mod params;
 
 
 
