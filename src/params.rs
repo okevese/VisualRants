@@ -1,4 +1,5 @@
 
+
 pub enum Sort {
     Algo,
     Top,
@@ -35,3 +36,4 @@ impl Range {
         }
     }
 }
+
