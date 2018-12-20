@@ -6,6 +6,7 @@ use visual_rants::*;
 
 fn main() {
 
+	
 	let algo = Sort::Algo;
 	let recent = Sort::Recent;
 	let top = Sort::Top;
