@@ -2,6 +2,7 @@ extern crate visual_rants;
 
 use visual_rants::*;
 
+pub mod params;
 
 
 fn main() {
