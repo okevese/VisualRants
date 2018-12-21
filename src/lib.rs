@@ -73,9 +73,7 @@ impl From<SerdError> for WrapError {
 
 
 // Get rants from API
-pub fn get_rants(sort_type: params::Sort, range_type: params::Range, _limit: &str, _skip: &str) -> Result<Rant, WrapError> {
-    let sort_type = sort_type.as_str();
-    let range_type = range_type.as_str();
+pub fn get_rants(sort_type: &str, range_type: &str, _limit: &str, _skip: &str) -> Result<Rant, WrapError> {
 
     let client = Client::new();
     let mut body = String::new();
@@ -172,8 +170,8 @@ mod tests {
 
     #[test]
     fn should_get_and_prepare_data() {
-        let recent = params::Sort::Recent;
-        let day = params::Range::Day;
+        let recent = params::Sort::RECENT;
+        let day = params::Range::DAY;
         let limit = "2";
         let skip = "0";
 
