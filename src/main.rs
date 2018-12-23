@@ -10,21 +10,7 @@ use visual_rants::params::*;
 
 
 fn main() {
-    
-    let algo = Sort::ALGO;
-    //let recent = Sort::RECENT;
-    let top = Sort::TOP;
-    let day = Range::DAY;
-    let week = Range::WEEK;
-    let month = Range::MONTH;
-    let all = Range::ALL;
-    
 
-
-    let limit: &str = "5";      // Number of rants to return
-    let skip: &str = "0";       // Number of rants to skip
-
-    
     #[derive(StructOpt, Debug)]
     #[structopt(name = "VisualRants", about = "See a visualization of rants.")]
     struct Cli {
@@ -35,24 +21,37 @@ fn main() {
     }
 
 
-    impl Cli {
-        fn create_request_params() -> Cli {
-            let args = Cli::from_args();
-            match args.sort.as_ref() {
-                Sort::RECENT => {
-                    println!("YES, A MATCH! YAAAAY");
-                    args
-                },
-                _ => {
-                    println!("No match");
-                    args
-                }
-            }
-        }
-    }
-    println!("{:?}", Cli::create_request_params());
+    
+    let mut sort_type = "";
+    let mut range_type = "";
+    let mut limit: &'a str = "";
+    let mut skip = "";
 
-    match get_rants(algo, day, limit, skip) {
+    let mut compare_query_values = || {
+        let args = Cli::from_args();
+        match args.sort.as_ref() {
+            Sort::RECENT =>  sort_type = Sort::RECENT,
+            Sort::ALGO => sort_type = Sort::ALGO,
+            Sort::TOP => sort_type = Sort::TOP,
+            _ => println!("No sort match")
+        }
+
+        match args.range.as_ref() {
+            Range::DAY => range_type = Range::DAY,
+            Range::WEEK => range_type = Range::WEEK,
+            Range::MONTH => range_type = Range::MONTH,
+            Range::ALL => range_type = Range::ALL,
+            _ => println!("No range match")
+        }
+
+        limit = args.limit.as_ref();
+        skip = args.skip.as_ref();
+    };
+
+
+    compare_query_values();
+
+    match get_rants(sort_type, range_type, limit, skip) {
         Ok(rants) => plot(prepare_data(rants)),
         
         Err(err) => println!(" Error: {:?}", err),
