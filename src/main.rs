@@ -32,7 +32,7 @@ fn main() {
             Sort::RECENT =>  sort_type = Sort::RECENT,
             Sort::ALGO => sort_type = Sort::ALGO,
             Sort::TOP => sort_type = Sort::TOP,
-            _ => println!("No sort match")
+            _ => eprintln!("No sort match")
         }
 
         match args.range.as_ref() {
@@ -40,7 +40,7 @@ fn main() {
             Range::WEEK => range_type = Range::WEEK,
             Range::MONTH => range_type = Range::MONTH,
             Range::ALL => range_type = Range::ALL,
-            _ => println!("No range match")
+            _ => eprintln!("No range match")
         }
     };
 
@@ -52,7 +52,7 @@ fn main() {
     match get_rants(sort_type, range_type, limit, skip) {
         Ok(rants) => plot(prepare_data(rants)),
         
-        Err(err) => println!(" Error: {:?}", err),
+        Err(err) => eprintln!(" Error: {:?}", err),
     }
     
 }
