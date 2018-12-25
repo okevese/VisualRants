@@ -19,16 +19,15 @@ fn main() {
         limit: String,
         skip: String,
     }
-
-
     
+
     let mut sort_type = "";
     let mut range_type = "";
-    let mut limit: &'a str = "";
-    let mut skip = "";
 
-    let mut compare_query_values = || {
-        let args = Cli::from_args();
+    let args = Cli::from_args();
+
+    let mut compare_query_values = |args: &Cli| {
+        
         match args.sort.as_ref() {
             Sort::RECENT =>  sort_type = Sort::RECENT,
             Sort::ALGO => sort_type = Sort::ALGO,
@@ -43,13 +42,12 @@ fn main() {
             Range::ALL => range_type = Range::ALL,
             _ => println!("No range match")
         }
-
-        limit = args.limit.as_ref();
-        skip = args.skip.as_ref();
     };
 
+    compare_query_values(&args);
 
-    compare_query_values();
+    let limit = &args.limit.as_ref();
+    let skip = &args.skip.as_ref();
 
     match get_rants(sort_type, range_type, limit, skip) {
         Ok(rants) => plot(prepare_data(rants)),
