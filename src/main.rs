@@ -8,8 +8,32 @@ use visual_rants::params::*;
 
 
 
-
 fn main() {
+
+   
+
+    let params = parse_cli();
+    
+    match params {
+        Ok(result) => {
+           println!("{:?}", params); 
+        },
+        Err(err) => eprintln!("{:?}", err),
+    }
+
+
+
+
+    //match get_rants(sort_type, range_type, limit, skip) {
+      //  Ok(rants) => plot(prepare_data(rants)),
+
+        //Err(err) => eprintln!(" Error: {:?}", err),
+    //}
+    
+}
+
+
+fn parse_cli() -> Result<(&'static str, &'static str, &'static str, &'static str), &'static str> {
 
     #[derive(StructOpt, Debug)]
     #[structopt(name = "VisualRants", about = "See a visualization of rants.")]
@@ -19,7 +43,6 @@ fn main() {
         limit: String,
         skip: String,
     }
-    
 
     let mut sort_type = "";
     let mut range_type = "";
@@ -27,7 +50,6 @@ fn main() {
     let args = Cli::from_args();
 
     let mut compare_query_values = |args: &Cli| {
-        
         match args.sort.as_ref() {
             Sort::RECENT =>  sort_type = Sort::RECENT,
             Sort::ALGO => sort_type = Sort::ALGO,
@@ -49,11 +71,6 @@ fn main() {
     let limit = &args.limit.as_ref();
     let skip = &args.skip.as_ref();
 
-    match get_rants(sort_type, range_type, limit, skip) {
-        Ok(rants) => plot(prepare_data(rants)),
-        
-        Err(err) => eprintln!(" Error: {:?}", err),
-    }
-    
+    Ok((sort_type, range_type, limit, skip))
 }
 
