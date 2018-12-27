@@ -1,3 +1,6 @@
+[profile.dev]
+panic = "abort"
+
 [package]
 name = "visual_rants"
 version = "0.1.0"
