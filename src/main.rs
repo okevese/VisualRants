@@ -9,13 +9,24 @@ use visual_rants::params::*;
 
 
 fn main() {
-   
+    /// See visuals of rants based on input values
     #[derive(StructOpt, Debug)]
     #[structopt(name = "VisualRants", about = "See a visualization of rants.")]
     struct Cli {
+        /// How rants are sorted
+        #[structopt(long = "sort", short = "s", default_value = "recent")]
         sort: String,
+
+        /// Time period to fetch rants from
+        #[structopt(long = "range", short = "r", default_value = "day")]
         range: String,
+
+        /// Number of rants to fetch
+        #[structopt(long = "limit", short = "l")]
         limit: String,
+
+        /// Number of rants to skip
+        #[structopt(long = "skip", default_value = "0")]
         skip: String,
     }
 
