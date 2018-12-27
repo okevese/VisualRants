@@ -18,43 +18,9 @@ use plotlib::style::{Marker, Point};
 use plotlib::view::View;
 use plotlib::page::Page;
 
-
-pub enum Sort {
-    Algo,
-    Top,
-    Recent,
-}
+pub mod params;
 
 
-pub enum Range {
-    Day,
-    Week,
-    Month,
-    All,
-}
-
-// To ensure only correct string values for `get_rants` parameters
-impl Sort {
-    pub fn as_str(&self) -> &str {
-        match self {
-            &Sort::Algo => "algo",
-            &Sort::Top => "top",
-            &Sort::Recent => "recent",
-        }
-    }
-}
-
-
-impl Range {
-    pub fn as_str(&self) -> &str {
-        match self {
-            &Range::Day => "day",
-            &Range::Week => "week",
-            &Range::Month => "month",
-            &Range::All => "all",
-        }
-    }
-}
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct RantData {
@@ -107,9 +73,7 @@ impl From<SerdError> for WrapError {
 
 
 // Get rants from API
-pub fn get_rants(sort_type: Sort, range_type: Range, _limit: &str, _skip: &str) -> Result<Rant, WrapError> {
-    let sort_type = sort_type.as_str();
-    let range_type = range_type.as_str();
+pub fn get_rants(sort_type: &str, range_type: &str, _limit: &str, _skip: &str) -> Result<Rant, WrapError> {
 
     let client = Client::new();
     let mut body = String::new();
@@ -206,8 +170,8 @@ mod tests {
 
     #[test]
     fn should_get_and_prepare_data() {
-        let recent = Sort::Recent;
-        let day = Range::Day;
+        let recent = params::Sort::RECENT;
+        let day = params::Range::DAY;
         let limit = "2";
         let skip = "0";
 
