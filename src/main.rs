@@ -9,32 +9,7 @@ use visual_rants::params::*;
 
 
 fn main() {
-
    
-
-    let params = parse_cli();
-    
-    match params {
-        Ok(result) => {
-           println!("{:?}", params); 
-        },
-        Err(err) => eprintln!("{:?}", err),
-    }
-
-
-
-
-    //match get_rants(sort_type, range_type, limit, skip) {
-      //  Ok(rants) => plot(prepare_data(rants)),
-
-        //Err(err) => eprintln!(" Error: {:?}", err),
-    //}
-    
-}
-
-
-fn parse_cli() -> Result<(&'static str, &'static str, &'static str, &'static str), &'static str> {
-
     #[derive(StructOpt, Debug)]
     #[structopt(name = "VisualRants", about = "See a visualization of rants.")]
     struct Cli {
@@ -54,7 +29,9 @@ fn parse_cli() -> Result<(&'static str, &'static str, &'static str, &'static str
             Sort::RECENT =>  sort_type = Sort::RECENT,
             Sort::ALGO => sort_type = Sort::ALGO,
             Sort::TOP => sort_type = Sort::TOP,
-            _ => eprintln!("No sort match")
+            _ => {
+                panic!("No sort match");
+            }
         }
 
         match args.range.as_ref() {
@@ -62,15 +39,22 @@ fn parse_cli() -> Result<(&'static str, &'static str, &'static str, &'static str
             Range::WEEK => range_type = Range::WEEK,
             Range::MONTH => range_type = Range::MONTH,
             Range::ALL => range_type = Range::ALL,
-            _ => eprintln!("No range match")
+            _ => {
+                panic!("No range match");
+            }
         }
     };
 
     compare_query_values(&args);
 
-    let limit = &args.limit.as_ref();
-    let skip = &args.skip.as_ref();
+    let limit: &str = &args.limit.as_ref();
+    let skip: &str = &args.skip.as_ref();
 
-    Ok((sort_type, range_type, limit, skip))
+
+    match get_rants(sort_type, range_type, limit, skip) {
+        Ok(rants) => plot(prepare_data(rants)),
+
+        Err(err) => eprintln!(" Error: {:?}", err),
+    }
 }
 
