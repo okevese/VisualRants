@@ -32,11 +32,9 @@ The following are some example commands
 ```cargo run -- -r month -s algo -l 20```
 
 ### Screenshots
-![User upvotes against number of comments on rant]
-(screenshots/user_comments.png "User upvotes against number of comments on rant")
+![User upvotes against number of comments on rant](screenshots/user_comments.png "User upvotes against number of comments on rant")
 
-![User upvote count against rant upvote count]
-(screenshots/user_rants.png "User upvote count against rant upvote count")
+![User upvote count against rant upvote count](screenshots/user_rants.png "User upvote count against rant upvote count")
 
 ### Current Work
 
