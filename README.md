@@ -17,8 +17,8 @@ Building VisualRants requires [rustup](https://github.com/rust-lang/rustup.rs), 
 
 ### Commandline Arguments
 
-* ```-s SORT``` sets how you want rants to be sorted
-* ```-r RANGE``` sets the time period to fetch rants from
+* ```-s SORT``` sets how you want rants to be sorted. Possible values for sort: ```recent```, ```algo```, ```top```
+* ```-r RANGE``` sets the time period to fetch rants from. Possible values for range: ```day```, ```week```, ```month```, ```all```
 * ```-l LIMIT``` sets the number of rants to fetch
 * ```--skip SKIP``` sets the number of rants to skip. Defaults to zero
 
@@ -36,9 +36,12 @@ The following are some example commands
 
 User upvotes against number of comments on rant
 
+----
+
 ![User upvote count against rant upvote count](screenshots/user_rants.png)
 
 User upvote count against rant upvote count
+
 
 ### Current Work
 
