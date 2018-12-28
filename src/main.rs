@@ -14,11 +14,11 @@ fn main() {
     #[structopt(name = "VisualRants", about = "See a visualization of rants.")]
     struct Cli {
         /// How rants are sorted
-        #[structopt(long = "sort", short = "s", default_value = "recent")]
+        #[structopt(long = "sort", short = "s")]
         sort: String,
 
         /// Time period to fetch rants from
-        #[structopt(long = "range", short = "r", default_value = "day")]
+        #[structopt(long = "range", short = "r")]
         range: String,
 
         /// Number of rants to fetch
