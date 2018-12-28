@@ -1,12 +1,14 @@
-
 extern crate structopt;
 extern crate visual_rants;
+#[macro_use]
+extern crate diesel;
+extern crate dotenv;
 
 use structopt::StructOpt;
-use visual_rants::*;
 use visual_rants::params::*;
+use visual_rants::*;
 
-
+mod db;
 
 fn main() {
     /// See visuals of rants based on input values
@@ -37,7 +39,7 @@ fn main() {
 
     let mut compare_query_values = |args: &Cli| {
         match args.sort.as_ref() {
-            Sort::RECENT =>  sort_type = Sort::RECENT,
+            Sort::RECENT => sort_type = Sort::RECENT,
             Sort::ALGO => sort_type = Sort::ALGO,
             Sort::TOP => sort_type = Sort::TOP,
             _ => {
@@ -61,11 +63,11 @@ fn main() {
     let limit: &str = &args.limit.as_ref();
     let skip: &str = &args.skip.as_ref();
 
-
     match get_rants(sort_type, range_type, limit, skip) {
         Ok(rants) => plot(prepare_data(rants)),
 
         Err(err) => eprintln!(" Error: {:?}", err),
     }
-}
 
+    db::establish_connection();
+}
