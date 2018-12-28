@@ -1,0 +1,1 @@
+use schema::rant_info;
