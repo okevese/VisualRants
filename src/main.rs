@@ -1,6 +1,6 @@
 extern crate structopt;
 extern crate visual_rants;
-#[macro_use]
+//#[macro_use]
 extern crate diesel;
 extern crate dotenv;
 
@@ -11,6 +11,13 @@ use visual_rants::*;
 mod db;
 
 fn main() {
+    parse_cli();
+    db::establish_connection();
+}
+
+
+
+fn parse_cli() {
     /// See visuals of rants based on input values
     #[derive(StructOpt, Debug)]
     #[structopt(name = "VisualRants", about = "See a visualization of rants.")]
@@ -69,5 +76,4 @@ fn main() {
         Err(err) => eprintln!(" Error: {:?}", err),
     }
 
-    db::establish_connection();
 }
