@@ -1,6 +1,6 @@
 extern crate structopt;
 extern crate visual_rants;
-//#[macro_use]
+#[macro_use]
 extern crate diesel;
 extern crate dotenv;
 
@@ -8,7 +8,8 @@ use structopt::StructOpt;
 use visual_rants::params::*;
 use visual_rants::*;
 
-mod db;
+pub mod db;
+pub mod schema;
 
 fn main() {
     parse_cli();

@@ -1,5 +1,4 @@
-//pub mod schema;
-//pub mod models;
+use schema;
 
 use diesel::prelude::*;
 use dotenv::dotenv;
