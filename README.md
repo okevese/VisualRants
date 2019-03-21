@@ -43,11 +43,6 @@ User upvotes against number of comments on rant
 User upvote count against rant upvote count
 
 
-### Current Work
-
-Save fetched rants to MySQL
-
-
 ### License
 
 This is provided under [MIT](https://github.com/okevese/VisualRants/blob/master/LICENSE).
